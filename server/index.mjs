@@ -12,6 +12,11 @@ dotenv.config()
 
 const server = http.createServer((req, res) => {
   const decodedUrl = decodeURIComponent(req.url)
+  if (path.normalize(decodeURIComponent(req.url)) !== decodeURIComponent(req.url)) {
+    res.statusCode = 403;
+    res.end();
+    return;
+  }
   let filePath = path.join(__dirname, '../src', decodedUrl)
 
   // Если URL оканчивается на '/', добавляем к нему 'index.html'
